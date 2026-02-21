@@ -1,5 +1,6 @@
 package com.skinplus.product_service.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -8,7 +9,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
-public class ProductRequestDTO {
+public class ProductRequestDTO implements Serializable {
 
 	@NotBlank(message = "Name is required")
 	private String name;
@@ -28,6 +29,11 @@ public class ProductRequestDTO {
 	private Integer stock;
 
 	private String description;
+	private static final long serialVersionUID = 1L;
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	@NotBlank
 	private String skinType;

@@ -1,132 +1,157 @@
 package com.skinplus.product_service.entity;
 
-
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "products")
 public class Product {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String name;
-    private String brand;
-    private String category;
+	private String name;
+	private String brand;
+	private String category;
 
-    private BigDecimal price;
-    private Integer stock;
+	private BigDecimal price;
+	private Integer stock;
 
-    @Column(length = 1000)
-    private String description;
+	@Column(length = 1000)
+	private String description;
 
-    private String skinType;
+	private String skinType;
 
-    private LocalDate mfgDate;
-    private LocalDate expDate;
+	private LocalDate mfgDate;
+	private LocalDate expDate;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+	public boolean isDeleted() {
+		return deleted;
+	}
 
-    public Product() {}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
-    // ===== GETTERS & SETTERS =====
+	@CreatedDate
+	@Column(updatable = false)
+	private LocalDateTime createdAt;
 
-    public Long getId() {
-        return id;
-    }
+	@LastModifiedDate
+	private LocalDateTime updatedAt;
 
-    public String getName() {
-        return name;
-    }
+	@Column(name = "deleted")
+	private boolean deleted = false;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public Product() {
+	}
 
-    public String getBrand() {
-        return brand;
-    }
+	// ===== GETTERS & SETTERS =====
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getCategory() {
-        return category;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+	public String getBrand() {
+		return brand;
+	}
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
 
-    public Integer getStock() {
-        return stock;
-    }
+	public String getCategory() {
+		return category;
+	}
 
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public BigDecimal getPrice() {
+		return price;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 
-    public String getSkinType() {
-        return skinType;
-    }
+	public Integer getStock() {
+		return stock;
+	}
 
-    public void setSkinType(String skinType) {
-        this.skinType = skinType;
-    }
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
 
-    public LocalDate getMfgDate() {
-        return mfgDate;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setMfgDate(LocalDate mfgDate) {
-        this.mfgDate = mfgDate;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public LocalDate getExpDate() {
-        return expDate;
-    }
+	public String getSkinType() {
+		return skinType;
+	}
 
-    public void setExpDate(LocalDate expDate) {
-        this.expDate = expDate;
-    }
+	public void setSkinType(String skinType) {
+		this.skinType = skinType;
+	}
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+	public LocalDate getMfgDate() {
+		return mfgDate;
+	}
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+	public void setMfgDate(LocalDate mfgDate) {
+		this.mfgDate = mfgDate;
+	}
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
+	public LocalDate getExpDate() {
+		return expDate;
+	}
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+	public void setExpDate(LocalDate expDate) {
+		this.expDate = expDate;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 }

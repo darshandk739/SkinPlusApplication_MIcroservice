@@ -2,11 +2,7 @@ package com.skinplus.product_service.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.skinplus.product_service.entity.ProductRequestDTO;
 import com.skinplus.product_service.entity.ProductResponseDTO;
@@ -18,19 +14,37 @@ import jakarta.validation.Valid;
 @RequestMapping("/products")
 public class ProductController {
 
-    private final ProductService service;
+	private final ProductService service;
 
-    public ProductController(ProductService service) {
-        this.service = service;
-    }
+	public ProductController(ProductService service) {
+		this.service = service;
+	}
 
-    @PostMapping
-    public ProductResponseDTO create(@Valid @RequestBody ProductRequestDTO request) {
-        return service.create(request);
-    }
+	@PostMapping
+	public ProductResponseDTO create(@Valid @RequestBody ProductRequestDTO request) {
+		return service.create(request);
+	}
 
-    @GetMapping
-    public List<ProductResponseDTO> getAll() {
-        return service.getAll();
-    }
+	@GetMapping
+	public List<ProductResponseDTO> search(@RequestParam(required = false) String name,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
+			@RequestParam(defaultValue = "id") String sortBy, @RequestParam(defaultValue = "asc") String direction) {
+
+		return service.searchProducts(name, page, size, sortBy, direction);
+	}
+
+	@GetMapping("/{id}")
+	public ProductResponseDTO getById(@PathVariable Long id) {
+		return service.getById(id);
+	}
+
+	@PutMapping("/{id}")
+	public ProductResponseDTO update(@PathVariable Long id, @Valid @RequestBody ProductRequestDTO request) {
+		return service.update(id, request);
+	}
+
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable Long id) {
+		service.delete(id);
+	}
 }

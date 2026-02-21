@@ -1,18 +1,24 @@
 package com.skinplus.product_service.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class ProductResponseDTO {
+public class ProductResponseDTO implements Serializable {
 
 	private Long id;
-
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String brand;
 	private String category;
 
 	private BigDecimal price;
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	private Integer stock;
 
 	private String description;
