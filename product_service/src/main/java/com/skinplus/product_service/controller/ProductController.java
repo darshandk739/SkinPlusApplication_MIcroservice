@@ -38,6 +38,11 @@ public class ProductController {
 		return service.getById(id);
 	}
 
+	@PutMapping("/{id}/reduce-stock")
+	public void reduceStock(@PathVariable Long id, @RequestParam int quantity) {
+		service.reduceStock(id, quantity);
+	}
+
 	@PutMapping("/{id}")
 	public ProductResponseDTO update(@PathVariable Long id, @Valid @RequestBody ProductRequestDTO request) {
 		return service.update(id, request);
