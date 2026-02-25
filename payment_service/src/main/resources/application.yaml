@@ -1,3 +1,19 @@
+server:
+  port: 8085
+
 spring:
   application:
-    name: payment_service
+    name: payment-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

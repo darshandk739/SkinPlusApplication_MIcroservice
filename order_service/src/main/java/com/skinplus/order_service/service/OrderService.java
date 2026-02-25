@@ -3,11 +3,14 @@ package com.skinplus.order_service.service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skinplus.order_service.client.PaymentClient;
 import com.skinplus.order_service.client.ProductClient;
-import com.skinplus.order_service.dto.Order;
+import com.skinplus.order_service.dto.PaymentRequest;
 import com.skinplus.order_service.dto.ProductResponseDTO;
+import com.skinplus.order_service.entity.Order;
 import com.skinplus.order_service.event.OrderCreatedEvent;
 import com.skinplus.order_service.kafka.OrderEventProducer;
 import com.skinplus.order_service.repository.OrderRepository;
@@ -21,8 +24,10 @@ public class OrderService {
 	private final ProductClient productClient;
 	private final OrderEventProducer producer;
 
+	@Autowired
+	private PaymentClient paymentClient;
+
 	public OrderService(OrderRepository repo, ProductClient productClient, OrderEventProducer producer) {
-		super();
 		this.repo = repo;
 		this.productClient = productClient;
 		this.producer = producer;
@@ -60,13 +65,29 @@ public class OrderService {
 
 		System.out.println("STEP 5 → Order saved with ID: " + savedOrder.getId());
 
-		OrderCreatedEvent event = new OrderCreatedEvent(savedOrder.getId(), productId, quantity);
+		/* ================= PAYMENT CALL ================= */
 
-		System.out.println("STEP 6 → Sending Kafka event");
+		System.out.println("STEP 6 → Calling payment service");
+
+		PaymentRequest paymentRequest = new PaymentRequest(savedOrder.getId(), total.doubleValue());
+
+		String paymentStatus = paymentClient.processPayment(paymentRequest);
+
+		System.out.println("Payment response: " + paymentStatus);
+
+		if (!"PAYMENT_SUCCESS".equals(paymentStatus)) {
+			throw new RuntimeException("Payment failed");
+		}
+
+		/* ================= KAFKA EVENT ================= */
+
+		System.out.println("STEP 7 → Sending Kafka event");
+
+		OrderCreatedEvent event = new OrderCreatedEvent(savedOrder.getId(), productId, quantity);
 
 		producer.sendOrderCreatedEvent(event);
 
-		System.out.println("STEP 7 → Method finished successfully");
+		System.out.println("STEP 8 → Method finished successfully");
 
 		return savedOrder;
 	}

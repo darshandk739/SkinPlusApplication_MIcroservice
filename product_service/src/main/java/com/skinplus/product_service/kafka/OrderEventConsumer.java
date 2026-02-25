@@ -3,7 +3,7 @@ package com.skinplus.product_service.kafka;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import com.skinplus.order_service.event.OrderCreatedEvent;
+import com.skinplus.product_service.event.OrderCreatedEvent;
 
 @Service
 public class OrderEventConsumer {

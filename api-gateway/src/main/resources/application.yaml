@@ -7,43 +7,25 @@ spring:
 
   cloud:
     gateway:
-      server:
-        webflux:
-          discovery:
-            locator:
-              enabled: true
-              lower-case-service-id: true
+      routes:
 
-          routes:
-            - id: product-service
-              uri: lb://product-service
-              predicates:
-                - Path=/products/**
+        # LOGIN ROUTES (NO JWT FILTER)
+        - id: auth-route
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/auth/**
 
-            - id: order-service
-              uri: lb://order-service
-              predicates:
-                - Path=/orders/**
-
-            - id: inventory-service
-              uri: lb://inventory-service
-              predicates:
-                - Path=/inventory/**
+        # USER PROTECTED ROUTES
+        - id: users-route
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
+          filters:
+            - JwtAuthenticationFilter
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    gateway:
-      access: unrestricted
-
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
+      defaultZone: http://eureka:8761/eureka/
+  instance:
+    prefer-ip-address: true

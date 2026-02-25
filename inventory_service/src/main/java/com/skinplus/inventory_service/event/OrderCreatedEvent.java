@@ -1,7 +1,6 @@
-package com.skinplus.order_service.event;
+package com.skinplus.inventory_service.event;
 
 public class OrderCreatedEvent {
-
 	private Long orderId;
 	private Long productId;
 	private Integer quantity;

@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.skinplus.order_service.dto.Order;
 import com.skinplus.order_service.dto.OrderRequest;
+import com.skinplus.order_service.entity.Order;
 import com.skinplus.order_service.service.OrderService;
 
 @RestController

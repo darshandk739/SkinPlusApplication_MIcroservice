@@ -1,5 +1,4 @@
-package com.skinplus.order_service.event;
-
+package com.skinplus.notification_service.event;
 
 
 public class OrderCreatedEvent {

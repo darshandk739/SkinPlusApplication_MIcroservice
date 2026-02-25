@@ -1,4 +1,4 @@
-package com.skinplus.inventory_service.dto;
+package com.skinplus.inventory_service.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

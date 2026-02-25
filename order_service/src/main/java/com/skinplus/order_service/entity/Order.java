@@ -1,4 +1,4 @@
-package com.skinplus.order_service.dto;
+package com.skinplus.order_service.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
